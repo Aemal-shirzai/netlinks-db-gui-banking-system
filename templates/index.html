@@ -1,0 +1,93 @@
+{% extends 'layouts/mainlayout.html' %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+
+<section id="minimal-statistics">
+    <div class="row">
+        <div class="col-12 mt-3 mb-1 text-center mt-5">
+            <h4 class="text-uppercase">Welcome To Banking System</h4>
+            <p>choose One of the Following To get Started</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 col-12">
+            <a href="{{ url_for('profile') }}">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <i class="icon-pencil primary font-large-2 float-left"></i>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h4>{{ current_user().balance | number_format }} AFG</h4>
+                                    <span>Manage Profile</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12">
+            <a href="{{ url_for('withdraw_money') }}">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <i class="fa fa-bitcoin warning font-large-2 float-left"></i>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h4>{{ current_user().balance | number_format }} AFG</h4>
+                                    <span>Withdraw Money</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12">
+            <a href="{{ url_for('deposit_money') }}">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <i class="fa fa-bitcoin success font-large-2 float-left"></i>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h4>{{ current_user().balance | number_format }} AFG</h4>
+                                    <span>Deposit Money</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-xl-3 col-sm-6 col-12">
+            <a href="{{ url_for('check_balance') }}">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="media d-flex">
+                                <div class="align-self-center">
+                                    <i class="fa fa-money danger font-large-2 float-left"></i>
+                                </div>
+                                <div class="media-body text-right">
+                                    <h4>{{ current_user().balance | number_format }} AFG</h4>
+                                    <span>Get Balance Reciept</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

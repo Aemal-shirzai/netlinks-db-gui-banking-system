@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>{% from 'forms.html' import render_field, login_error %}
+        <title>{% block title %} {% endblock %} - Banking System</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" id="bootstrap-css">   
+        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
+        <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
+        <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
+        <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">   
+  
+    </head>
+    <body>
+        
+        <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            {% if is_authenticated()%}
+                {% if not is_admin()  %}
+                <li class="nav-item {{'active' if request.path == url_for('index')}}">
+                    <a class="nav-link" href="{{ url_for('index') }}">
+                    <i class="fa fa-home"></i>
+                    Home
+                    <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item {{'active' if request.path == url_for('profile')}}">
+                    <a class="nav-link" href="{{ url_for('profile') }}">
+                    <i class="fa fa-user-circle"></i>
+                    Manage Profile
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-bitcoin"></i>
+                    Account
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ url_for('withdraw_money') }}">Withdraw Money</a>
+                    <a class="dropdown-item" href="{{ url_for('deposit_money') }}">Deposit Money</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ url_for('check_balance') }}">Get Balance Reciept</a>
+                    </div>
+                </li>
+                {% else %}
+                <li class="nav-item {{'active' if request.path == url_for('admin_manage_profile')}}">
+                    <a class="nav-link" href="{{ url_for('admin_manage_profile') }}">
+                    <i class="fa fa-user-circle"></i>
+                    Manage Profile
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-group"></i>
+                    Manage Users
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ url_for('register') }}">Add users</a>
+                    <a class="dropdown-item" href="{{ url_for('users') }}">Users List</a>
+                    <div class="dropdown-divider"></div>
+                    {% if is_supper() %}
+                    <a class="dropdown-item" href="{{ url_for('register_admin') }}">Add Admin</a>
+                    {% endif %}
+                    <a class="dropdown-item" href="{{ url_for('admin_list') }}">Admin List</a>
+                </li>
+                {% endif %}
+            {% endif %}
+            </ul>
+
+            <ul class="navbar-nav ">
+            {% if is_authenticated() %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">
+                    <i class="fa fa-sign-out-alt"></i>
+                    Logout
+                    </a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login') }}">
+                    <i class="fa fa-sign-in-alt"></i>
+                    Login
+                    </a>
+                </li>
+            {% endif %}
+            </ul>
+        </div>
+        </nav>
+        <div class="grey-bg container-fluid">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+    
+        <script src=" {{ url_for('static', filename='js/jquery.js') }} "></script>
+        <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+    </body>
+</html>

@@ -1,0 +1,35 @@
+{% extends 'layouts/mainlayout.html' %}
+{% from 'forms.html' import render_field, success_message %}
+{% block title %} Withdraw Money {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="container">
+        <div class="row">
+          <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+              <div class="card-body">
+                <h5 class="card-title text-center">
+                    Withdraw Money From Your Account
+                    <small class="d-block mt-1" style="font-size: 12px;">
+                        Current Balance:{{ current_user().balance | number_format }} AFG
+                    </small>
+                </h5>
+                {{ success_message() }}
+                <form action="{{ url_for('withdraw_money') }}" method="POST">
+                    {{ form.csrf_token() }}
+                    {{ render_field(form.amount) }}
+                    {{ render_field(form.reciept) }}
+                    <button class="btn btn-lg btn-primary btn-block text-uppercase"
+                      type="submit">Withdraw</button>
+                </form>
+              </div>    
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+{% endblock %}
+
+
+

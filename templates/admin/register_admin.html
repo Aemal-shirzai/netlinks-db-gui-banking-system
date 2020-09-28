@@ -1,0 +1,28 @@
+{% extends 'layouts/mainlayout.html' %}
+{% from 'forms.html' import render_field, success_message %}
+{% block title %} Register User {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">Create New Admin</h5>
+            {{ success_message() }}
+            <form action="{{ url_for('register_admin') }}" method="POST">
+                {{ form.csrf_token() }}
+                {{ render_field(form.name) }}
+                {{ render_field(form.email) }}
+                {{ render_field(form.password) }}
+                {{ render_field(form.confirm) }}
+                <div class="custom-control custom-checkbox mb-1"></div>
+                <button class="btn btn-lg btn-primary btn-block text-uppercase"
+                  type="submit">Add Admin</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

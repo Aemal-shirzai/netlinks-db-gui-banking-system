@@ -1,0 +1,60 @@
+{% extends 'layouts/mainlayout.html' %}
+{% from 'forms.html' import render_field, success_message %}
+{% block title %} Admins {% endblock %}
+
+{% block content %}
+{% include 'bootstrap_modals.html' %}
+<div class="row">
+    <div class="col-12 mt-3 mb-1 text-center mt-5">
+        <h4 class="text-uppercase">Welcome To Banking System</h4>
+        <p>All Admins</p>
+    </div>
+</div>
+<section id="minimal-statistics">
+    <div class="row">
+        <div class="col-lg-3">
+            {{ success_message() }}
+        </div>
+    </div>
+    <div class="row">
+        {% if not users %}
+            <h4 class="text-center p-5 col-12 font-weight-bold">No Admins Availible</h4>
+        {% else %} 
+        {% for user in users %}     
+            {% if not user.is_supper %}
+            <div class="col-xl-3 col-sm-6 col-12 rounded">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="media d-flex">
+                                <div class="media-body">
+                                    <h3></h3>
+                                    <span class="font-weight-bold d-block">
+                                        {{ user.name }}
+                                        {% if user.id == current_user().id %}
+                                            <small class="text-success">YOU</small>
+                                        {% endif %}
+                                    </span>
+                                    <span class="d-block" style="font-size: 12px;">{{ user.email }}</span>
+                                    <span class="d-block" style="font-size: 12px;">{{ user.address }}</span>
+                                    <hr>
+                                    {% if is_supper() %}
+                                    <button class="btn btn-danger btn-sm text-white d-block col-12" 
+                                        data-toggle="modal" data-target="#deleteModal" data-id="{{user.id}}"
+                                        data-url="{{ url_for('delete_admins') }}">
+                                        delete
+                                    </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

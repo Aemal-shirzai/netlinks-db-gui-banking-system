@@ -1,0 +1,74 @@
+{% macro render_field(field) %}
+<div class="form-label-group mt-1">
+    {% if field.id == 'reciept' %}
+        {{ field }}
+        <span style="font-size: 12px;">{{ field.label }}</span> 
+    {% else %}
+        {{ field.label }}
+        {{ field }}
+    {% endif %}
+
+    {% if field.errors %}
+        {% for err in field.errors %}
+            <p class="text-danger" style="font-size: 12px;">{{ err }}</p>
+        {% endfor %}
+    {% endif %}
+    {% if field.id == 'email' %}
+        {% with messages = get_flashed_messages(category_filter=["emailNotUnique"]) %}
+            {% if messages %}
+            {% for  message in messages %}
+                <p class="text-danger" style="font-size: 12px;">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+    {% endif %}
+    {% if field.id == 'password_verify' %}
+        {% with messages = get_flashed_messages(category_filter=["passwordIncorrect"]) %}
+            {% if messages %}
+            {% for  message in messages %}
+                <p class="text-danger" style="font-size: 12px;">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+    {% endif %}
+    {% if field.id == 'old_password' %}
+        {% with messages = get_flashed_messages(category_filter=["old_pass_incorect"]) %}
+            {% if messages %}
+            {% for  message in messages %}
+                <p class="text-danger" style="font-size: 12px;">{{ message }}</p>
+            {% endfor %}
+            {% endif %}
+        {% endwith %}
+    {% endif %}
+</div>
+{% endmacro %}
+
+
+<!-- for success messges -->
+{% macro success_message() %}
+    {% with messages = get_flashed_messages(category_filter=["addSuccess"]) %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success text-white">
+                    <button class="close" data-dismiss="alert">&times;</button>
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+{% endmacro %}
+
+
+<!-- For login Errror -->
+{% macro login_error() %}
+    {% with messages = get_flashed_messages(category_filter=["loginError"]) %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-warning text-white">
+                    <button class="close" data-dismiss="alert">&times;</button>
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+{% endmacro %}

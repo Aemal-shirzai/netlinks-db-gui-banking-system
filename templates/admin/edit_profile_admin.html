@@ -1,0 +1,47 @@
+{% extends 'layouts/mainlayout.html' %}
+{% from 'forms.html' import render_field, success_message %}
+{% block title %} Edit Profile {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+      <div class="col-12 mt-3">
+        {{ success_message() }}
+      </div>
+      <div class="col-sm-12 col-md-10 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">Change Information</h5>
+            <form action="{{ url_for('admin_manage_profile') }}" method="POST">
+                {{ form.csrf_token() }}
+                {{ render_field(form.name) }}
+                {{ render_field(form.email) }}
+                {{ render_field(form.password_verify) }}
+                <div class="custom-control custom-checkbox mb-1"></div>
+                <button class="btn btn-lg btn-primary btn-block text-uppercase"
+                  type="submit">Update Admin</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-10 col-lg-5 ">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">Change Password</h5>
+            <form action="{{ url_for('change_password') }}" method="POST">
+                {{ form.csrf_token() }}
+                {{ render_field(pass_form.old_password) }}
+                {{ render_field(pass_form.new_password) }}
+                {{ render_field(pass_form.confirm) }}
+                <div class="custom-control custom-checkbox mb-1"></div>
+                <button class="btn btn-lg btn-primary btn-block text-uppercase"
+                  type="submit">Change Password</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}
