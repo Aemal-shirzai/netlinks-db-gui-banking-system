@@ -30,6 +30,17 @@ def less_than_original_balance(form, field):
         raise ValidationError('You have insufficient ballance')
 
 
+def email_valid(uemail, model):
+    from authentication import current_user
+    """This is custom validation for the email field"""
+
+    user = model.query.filter_by(email=uemail).first()
+    if not user:
+        return False
+    return True
+
+
+
 @app.template_filter()
 def number_format(value):
     """This function format the numbers with comma seperated.

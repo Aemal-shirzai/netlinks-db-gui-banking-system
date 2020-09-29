@@ -357,3 +357,60 @@ class WithdrawMoneyForm(FlaskForm):
     )
 
 
+class ForgotPassForm(FlaskForm):
+    """This Class contains inputs and their validation.
+    
+    This class is blueprint for login forms. it has email input field.
+
+    Parameters:
+    ----------
+    FlaskForm: it used to inherate the FlaskForm
+    """
+    email = StringField(
+        label="Email Address",
+        id="email",
+        render_kw={
+            'placeholder':'Email Address', 'class':'form-control',
+            'autocomplete':'off'
+        },
+        validators=[
+            InputRequired("Please Fill the Email Field"), 
+            Email("Invalid Email Address"),
+            Length(max=30, message="Too Long Email supplied"),
+        ],
+    )
+    user_type = SelectField(
+        choices=[(1,"User"),(2,"Admin")],
+        validators=[InputRequired("Choose your type")],
+        render_kw={"class":"form-control"}
+    )
+
+
+
+class ResetPassForm(FlaskForm):
+    """This Class contains inputs and their validation .
+    
+    This class is blueprint for change pass forms. new pass and 
+    confirm new password filds.
+    It is shared by both users and admins
+
+    Parameters:
+    ----------
+    FlaskForm: it used to inherate the FlaskForm
+    """
+    new_password = PasswordField(
+        label="New Passwrod",
+        id="new_password",
+        render_kw={'placeholder':'New Password', 'class':'form-control'},
+        validators=[
+            InputRequired("Please Fill the Password Field"), 
+            Length(min=6, max=40),
+            EqualTo("confirm", message="Password must match!!")
+        ],
+    )
+    confirm = PasswordField(
+        label="Passwrod confirm",
+        id="confirm",
+        render_kw={'placeholder':'Password', 'class':'form-control'},
+    )
+

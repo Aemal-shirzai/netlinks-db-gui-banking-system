@@ -1,26 +1,21 @@
 {% extends 'layouts/mainlayout.html' %}
 {% from 'forms.html' import render_field, login_error, success_message %}
-{% block title %} Login {% endblock %}
+{% block title %} Forgot Password {% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="col-12 mt-3">
-          {{ success_message() }}
-        </div>
         <div class="card card-signin my-5">
           <div class="card-body">
-            <h5 class="card-title text-center">Sign In to Your Account</h5>
+            <h5 class="card-title text-center">Request Reset Password</h5>
             {{ login_error() }}
-            <form class="form-signin" method="POST", action="{{ url_for('login') }}">
+            <form class="form-signin" method="POST", action="{{ url_for('forgot_password') }}">
                 {{ form.csrf_token() }}
                 {{ render_field(form.email) }}
-                {{ render_field(form.password) }}
                 {{ render_field(form.user_type) }}
               <div class="custom-control custom-checkbox mb-1"></div>
-              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
-              <a href="{{url_for('forgot_password')}}">Forgot Password?</a>
+              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Send reset Link</button>
             </form>
           </div>
         </div>

@@ -1,6 +1,6 @@
 from connections import app, db
 from passlib.hash import pbkdf2_sha256
-
+from itsdangerous import TimedJSONWebSignatureSerializer as serializer
 class AdminModel(db.Model):
     """This Class represent the admins table in the database.
     
@@ -8,7 +8,7 @@ class AdminModel(db.Model):
     -----------
     __tablename__: str -- It stores the table name.
     id: integer -- It is admin unique id.
-    name: str -- It is name of admin
+    name: str -- It is name of adminpass
     email: str -- Unique Email Address of Admin
     password: str -- Password for admin
     is_supper: boolean -- if the user is super admin or not
@@ -22,6 +22,21 @@ class AdminModel(db.Model):
     email = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     is_supper = db.Column(db.Boolean(), nullable=False, default=False)
+
+    def get_reset_token(self, expires=1800):
+        s_obj = serializer(app.config["SECRET_KEY"], expires)
+        token = s_obj.dumps({'user_id':self.id}).decode("utf-8")
+        return token
+    
+    @staticmethod
+    def verify_reset_token(token):
+        s_obj = serializer(app.config["SECRET_KEY"])
+        try:
+            user_id = s_obj.loads(token)['user_id']
+        except:
+            return None
+        user = AdminModel.query.get(user_id)
+        return user
 
     def __init__(self, name, email, password, is_supper=False):
         self.name = name
@@ -52,6 +67,21 @@ class UserModel(db.Model):
     email = db.Column(db.String(255), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)   
 
+    def get_reset_token(self, expires=1800):
+        s_obj = serializer(app.config["SECRET_KEY"], expires)
+        token = s_obj.dumps({'user_id':self.id}).decode("utf-8")
+        return token
+    
+    @staticmethod
+    def verify_reset_token(token):
+        s_obj = serializer(app.config["SECRET_KEY"])
+        try:
+            user_id = s_obj.loads(token)['user_id']
+        except:
+            return None
+        user = UserModel.query.get(user_id)
+        return user
+    
     def __init__(self, name, address, email, password):
         self.name = name
         self.email = email
