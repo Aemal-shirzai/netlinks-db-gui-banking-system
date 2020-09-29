@@ -9,10 +9,16 @@ from models import AdminModel, UserModel
 
 @app.route("/reset_password", methods=["GET", "POST"])
 def forgot_password():
+    '''This function return forgot pass page and send email.
+    
+    Methods: 
+    GET: it returns the forgot pass page
+    Post: it send email to the user by calling the send email
+    '''
     form = ForgotPassForm()
 
     if form.validate_on_submit():
-        uemail = form.email.data
+        uemail = form.email.data.lower()
         utype = int(form.user_type.data)
         model = UserModel if utype == 1 else AdminModel
         is_valid_email = email_valid(uemail, model)
@@ -32,15 +38,31 @@ def forgot_password():
 
 @app.route("/reset_password/<utype>/<token>", methods=["GET", "POST"])
 def reset_password(utype,token):
+    '''This function reset user password.
+    
+    Methods:
+    -------
+    GET: it returns the reset password page
+    POST: it reset password
+
+    parameters:
+    ----------
+    utype: the type of the user normal user or admin
+    token: the token of the user
+    '''
+
     model = AdminModel if utype == "admin" else UserModel
-    user = model.verify_reset_token(token)
-    if user is None:
+    data = model.verify_reset_token(token) #verify the token
+
+    if data is None or data['user_type'] != utype:
+        # the data['user_type'] != utype means if someone manually change the 
+        # usertype in form. so first check with the type in the token
         flash("Invalid or expird token", category="loginError")
         return redirect(url_for("forgot_password"))
 
     form = ResetPassForm()
     if form.validate_on_submit():
-        user.password = pbkdf2_sha256.hash(form.new_password.data)
+        data['user'].password = pbkdf2_sha256.hash(form.new_password.data)
         db.session.commit()
         flash("Password Changed", category="addSuccess")
         return redirect(url_for('login'))
@@ -49,6 +71,7 @@ def reset_password(utype,token):
 
 
 def send_reset_mail(utype, user):
+    '''This function send reset password link'''
     token = user.get_reset_token()
     user_type = "user" if utype == 1 else "admin"
     msg = Message("Password Reset Link", 

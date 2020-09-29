@@ -32,8 +32,15 @@ def less_than_original_balance(form, field):
 
 def email_valid(uemail, model):
     from authentication import current_user
-    """This is custom validation for the email field"""
+    '''This function check if the email exists in database or not.
+    
+    It is used when we reseting our password.
 
+    parameters:
+    -----------
+    uemail: The email to be checked
+    model: in which model it has to check
+    '''
     user = model.query.filter_by(email=uemail).first()
     if not user:
         return False

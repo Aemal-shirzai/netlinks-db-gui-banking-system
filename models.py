@@ -1,6 +1,8 @@
 from connections import app, db
 from passlib.hash import pbkdf2_sha256
 from itsdangerous import TimedJSONWebSignatureSerializer as serializer
+
+
 class AdminModel(db.Model):
     """This Class represent the admins table in the database.
     
@@ -24,19 +26,24 @@ class AdminModel(db.Model):
     is_supper = db.Column(db.Boolean(), nullable=False, default=False)
 
     def get_reset_token(self, expires=1800):
+        '''This function create and get a new passwrod reset token for user'''
         s_obj = serializer(app.config["SECRET_KEY"], expires)
-        token = s_obj.dumps({'user_id':self.id}).decode("utf-8")
+        token = s_obj.dumps({'user_id':self.id, 'utype':'admin'}).decode("utf-8")
         return token
     
     @staticmethod
     def verify_reset_token(token):
+        '''This function verifies the token to be correct or not'''
         s_obj = serializer(app.config["SECRET_KEY"])
         try:
+            # check if the we can get the user id and type from token or not
             user_id = s_obj.loads(token)['user_id']
+            utype = s_obj.loads(token)['utype']
         except:
+            # it means the token is not valid or expird if we dont get id from it
             return None
-        user = AdminModel.query.get(user_id)
-        return user
+        data = {'user': AdminModel.query.get(user_id), 'user_type':utype}
+        return data
 
     def __init__(self, name, email, password, is_supper=False):
         self.name = name
@@ -68,20 +75,26 @@ class UserModel(db.Model):
     password = db.Column(db.String(255), nullable=False)   
 
     def get_reset_token(self, expires=1800):
+        '''This function create and get a new passwrod reset token for user'''
         s_obj = serializer(app.config["SECRET_KEY"], expires)
-        token = s_obj.dumps({'user_id':self.id}).decode("utf-8")
+        token = s_obj.dumps({'user_id':self.id,'utype':'user'}).decode("utf-8")
         return token
     
     @staticmethod
     def verify_reset_token(token):
+        '''This function verifies the token to be correct or not'''
         s_obj = serializer(app.config["SECRET_KEY"])
         try:
+             # check if the we can get the user id and type from token or not
             user_id = s_obj.loads(token)['user_id']
+            utype = s_obj.loads(token)['utype']
         except:
+            # it means the token is not valid or expird if we dont get id from it
             return None
-        user = UserModel.query.get(user_id)
-        return user
+        data = {'user': UserModel.query.get(user_id), 'user_type':utype}
+        return data
     
+
     def __init__(self, name, address, email, password):
         self.name = name
         self.email = email

@@ -9,15 +9,15 @@ app = Flask(__name__)
 app.debug = True
 app.config["SECRET_KEY"] = os.urandom(16)
 
-app.config["SQLALCHEMY_DATABASE_URI"] ="postgresql://ubuntu:ubuntu@123@localhost/bank"
+app.config["SQLALCHEMY_DATABASE_URI"] ="postgresql://username:password@host/datbasename"
 db = SQLAlchemy(app)
 
 # mail configuration
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'aemalshirzai2016@gmail.com'
-app.config['MAIL_PASSWORD'] = 'fhmg vwhg iubw ofaa'
+app.config['MAIL_USERNAME'] = 'gmail username'
+app.config['MAIL_PASSWORD'] = 'app password'
 
 mail = Mail(app)
 

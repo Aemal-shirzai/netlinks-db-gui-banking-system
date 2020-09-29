@@ -16,6 +16,8 @@ In this system we have 3 types of users:
   - Deposit Money
   - Withdraw Money
   - Check Balance
+
+**Users can also reset their password**
  
 ## Prerequisites Modules To Install
 1. Python3: [(Linux)](https://docs.python-guide.org/starting/install3/linux/)  [(windows)](https://docs.python-guide.org/starting/install3/win/)4
@@ -58,6 +60,11 @@ In this system we have 3 types of users:
     pip3 install passlib
     ```
 
+11. flask-mail: The Flask-Mail extension provides a simple interface to set up SMTP with your Flask application and to send messages from your views and scripts. 
+
+    ```
+    pip3 install Flask-Mail
+    ```
  
  ## Project Structure
  
@@ -67,16 +74,17 @@ In this system we have 3 types of users:
    3. migrations.py: This file contains the datbase migrations. our table structure.
    4. seed.py: This file contains the data to be seeded to database for first time.
    5. models.py: This file contains models of our tables. Each class represet a table in the database.
-   6. forms.py: This file has our all forms classes. using the wtforms.
-   7. authentication.py: This file has login, logout and also functions to keep user track.
-   8. functions.py: This file include some cusom validation functions and functions used globaly in the templates.
-   9. users.py: This file contain all functions to be used when working as normal user.
-   10. admin.py: This file contain all functions to be used when working as admin user. and some functions can be accessed from user.py file too.
-   11. generate_reciept.py: This file generate user reciepts for chekcing, withdrawing and depositing money.
+   6. password_reset.py: this file contains functions to reset user password
+   7. forms.py: This file has our all forms classes. using the wtforms.
+   8. authentication.py: This file has login, logout and also functions to keep user track.
+   9. functions.py: This file include some cusom validation functions and functions used globaly in the templates.
+   1. users.py: This file contain all functions to be used when working as normal user.
+   11. admin.py: This file contain all functions to be used when working as admin user. and some functions can be accessed from user.py file too.
+   12. generate_reciept.py: This file generate user reciepts for chekcing, withdrawing and depositing money.
 
 **Template Files** <br>
    1. Admin Dirctory: Contain all admin related templates.
-   2. Authentiation Directory: Contain all templates realted to authentication
+   2. Authentiation Directory: Contain all templates realted to authentication and passwrod reset
    3. Layouts Directory: Contain main template for our project.
    4. Other files are related to normal user
  
@@ -90,7 +98,8 @@ In this system we have 3 types of users:
 1. You should have python and postgresql installed in your system.
 2. Download the project.
 3. Go to connections file and edit your postgresql database URI and database name.
-4. Run Migrations: Go to the project dirctory and run the following commands:
+4. You should set the email configurations in connections file aswell. if you use smtp.gmail.com then you should have a app password for your gmail account. go and create one before proceeding. and alsow edit the configurations
+5. Run Migrations: Go to the project dirctory and run the following commands:
    
    ```
    python3 migrations.py db init
@@ -98,13 +107,13 @@ In this system we have 3 types of users:
    python3 migrations.py db upgrade
    ```
    
-5. Seed data: Add one super admin by running the seed file:
+6. Seed data: Add one super admin by running the seed file:
 
    ```
    python3 seed.py
    ```
 
-6. export App:
+7. export App:
    
    
    ```
