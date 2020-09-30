@@ -1,4 +1,31 @@
 @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap");
+
+body {
+  font-family: 'Rajdhani', sans-serif !important;
+}
+
+.btn-primary{
+  background-color: #808EA8 !important;
+  border-color: #808EA8 !important;
+}
+
+.btn-primary:hover{
+  background-color: #808EA8 !important;
+  border-color: #808EA8 !important;
+}
+
+a {
+  color: #808EA8 !important;
+}
+
+nav a {
+  color: white !important;
+}
+
+.dropdown-item {
+  color: #7d7a7a  !important;
+}
 
 .navbar-icon-top .navbar-nav .nav-link > .fa {
   position: relative;
