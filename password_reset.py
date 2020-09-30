@@ -83,7 +83,7 @@ def send_reset_mail(utype, user):
                 <h4>Banking System</h4>
             </div>
             <div class="p-2 col-lg-8 offset-lg-2">
-                Hi   <strong>{ user.email }</strong>
+                Hi   <strong>{ user.name }</strong>
                 <p class="pt-2">
                     You Have recently requested to reset your password for Banking
                     system. Click Button Bellow To reset Your Password.
@@ -94,10 +94,10 @@ def send_reset_mail(utype, user):
                     </a>
                 </div>
                 <p class="mt-2">
-                    If You did not request the reset password so please ignore this messagesss
+                    If You did not request the reset password so please ignore this message.
                 </p>
                 <p>
-                    Regards.
+                    Regards. <br>
                     <strong class="d-block">Banking System</strong>
                 </p>
             </div>
