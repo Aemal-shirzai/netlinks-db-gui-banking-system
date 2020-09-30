@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 from passlib.hash import pbkdf2_sha256
-from connections import app, db
+from connections import app, db 
 from forms import AdminRegisterForm, UserRegisterForm, AdminUpdateForm, \
     changePasswordForm, UserUpdateForm
 from models import AdminModel, UserModel
 from authentication import is_authenticated, is_admin, current_user, is_supper
+
 
 
 @app.route("/admin/register", methods=['GET', 'POST'])

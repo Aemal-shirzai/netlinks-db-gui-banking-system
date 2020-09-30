@@ -78,10 +78,29 @@ def send_reset_mail(utype, user):
         sender="bankingsystem@demo.com",
         recipients=[user.email]
         )
-    msg.body = f'''\
-Please Click the link Bellow to reset your bank account password
-
-{url_for('reset_password', utype=user_type, token=token, _external=True)}
-'''
+    msg.html = f'''<div class="grey-bg container pt-4">
+            <div class="bg-white p-2 text-center">
+                <h4>Banking System</h4>
+            </div>
+            <div class="p-2 col-lg-8 offset-lg-2">
+                Hi   <strong>{ user.email }</strong>
+                <p class="pt-2">
+                    You Have recently requested to reset your password for Banking
+                    system. Click Button Bellow To reset Your Password.
+                </p>
+                <div class="text-center">
+                    <a href="{url_for('reset_password', utype=user_type, token=token, _external=True)}" class="btn btn-outline-primary btn-sm">
+                      <button style="padding:6px; cursor:pointer">Reset Password </button>
+                    </a>
+                </div>
+                <p class="mt-2">
+                    If You did not request the reset password so please ignore this messagesss
+                </p>
+                <p>
+                    Regards.
+                    <strong class="d-block">Banking System</strong>
+                </p>
+            </div>
+        </div>'''
     mail.send(msg)
     return True
