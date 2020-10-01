@@ -5,7 +5,7 @@ from connections import app, db, mail
 from forms import  ForgotPassForm, ResetPassForm
 from functions import email_valid
 from models import AdminModel, UserModel
-
+from authentication import is_authenticated
 
 @app.route("/reset_password", methods=["GET", "POST"])
 def forgot_password():
@@ -15,8 +15,11 @@ def forgot_password():
     GET: it returns the forgot pass page
     Post: it send email to the user by calling the send email
     '''
-    form = ForgotPassForm()
 
+    if is_authenticated():
+        return redirect(url_for('login'))
+
+    form = ForgotPassForm()
     if form.validate_on_submit():
         uemail = form.email.data.lower()
         utype = int(form.user_type.data)
@@ -50,6 +53,8 @@ def reset_password(utype,token):
     utype: the type of the user normal user or admin
     token: the token of the user
     '''
+    if is_authenticated():
+        return redirect(url_for('login'))
 
     model = AdminModel if utype == "admin" else UserModel
     data = model.verify_reset_token(token) #verify the token
@@ -72,6 +77,10 @@ def reset_password(utype,token):
 
 def send_reset_mail(utype, user):
     '''This function send reset password link'''
+
+    if is_authenticated():
+        return redirect(url_for('login'))
+        
     token = user.get_reset_token()
     user_type = "user" if utype == 1 else "admin"
     msg = Message("Password Reset Link", 
