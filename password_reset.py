@@ -7,6 +7,7 @@ from functions import email_valid
 from models import AdminModel, UserModel
 from authentication import is_authenticated
 
+
 @app.route("/reset_password", methods=["GET", "POST"])
 def forgot_password():
     '''This function return forgot pass page and send email.

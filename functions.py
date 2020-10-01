@@ -47,7 +47,6 @@ def email_valid(uemail, model):
     return True
 
 
-
 @app.template_filter()
 def number_format(value):
     """This function format the numbers with comma seperated.

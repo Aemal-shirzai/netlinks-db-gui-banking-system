@@ -199,7 +199,6 @@ def email_is_unique(model, email, ftype):
 def verify_password(password):
     """This function check the user password by hashing them
     
-
     parameters:
     ----------
     password: the user typed password
